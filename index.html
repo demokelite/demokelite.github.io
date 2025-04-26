@@ -4,401 +4,103 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>我的个人博客 - 分享技术与生活</title>
-    <style>
-        /* 全局样式 */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+    
+        <style>
+                body {
+                    margin: 0;
+                    font-family: Arial, sans-serif;
+                }
         
-        body {
-            background-color: #f7f9fc;
-            color: #333;
-            line-height: 1.6;
-        }
+                .container {
+                    width: 100vw;
+                    height: 100vh;
+                    background: #faf8f6;
+                    background-image: url(https://dy.dw0.cn/uploads/20250222/b78e92079b51f6bf4edc1e8311f6d4df.png);
+                    background-size: cover;
+                    overflow: hidden;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                }
         
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 15px;
-        }
+                .img-box {
+                    width: 230px;
+                    height: 240px;
+                    margin-bottom: 30px;
+                    transition: all 0.3s ease; /* 添加过渡效果 */
+                }
         
-        /* 头部样式 */
-        .header {
-            background-color: #fff;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-            padding: 20px 0;
-            text-align: center;
-            border-radius: 8px 8px 0 0;
-        }
+                .img-box img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
         
-        .header h1 {
-            color: #2c3e50;
-            margin-bottom: 5px;
-        }
+                .text {
+                    font-size: 24px;
+                    text-align: center;
+                    margin-bottom: 30px;
+                    transition: all 0.3s ease; /* 添加过渡效果 */
+                }
         
-        .header p {
-            color: #7f8c8d;
-            font-size: 1.1rem;
-        }
+                .button-group {
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center; /* 确保按钮居中 */
+                }
         
-        /* 导航栏样式 */
-        nav {
-            background-color: #3498db;
-            padding: 15px 0;
-            border-radius: 0 0 8px 8px;
-        }
+                .btn {
+                    height: 40px;
+                    font-size: 18px;
+                    width: 120px;
+                    margin: 10px 0;
+                    border: none;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.3s ease; /* 添加过渡效果 */
+                }
         
-        nav ul {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            flex-wrap: wrap;
-        }
+                .agree {
+                    background-color: #f6cb89;
+                     color: #000;
+                }
         
-        nav li {
-            margin: 0 10px;
-        }
-        
-        nav a {
-            color: white;
-            text-decoration: none;
-            font-weight: 500;
-            padding: 8px 15px;
-            border-radius: 4px;
-            transition: background-color 0.3s;
-        }
-        
-        nav a:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-        
-        /* 主内容区样式 */
-        .main-content {
-            display: flex;
-            margin: 30px 0;
-            gap: 30px;
-        }
-        
-        /* 侧边栏样式 */
-        .sidebar {
-            width: 300px;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .profile {
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        
-        .profile-img {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            object-fit: cover;
-            display: block;
-            margin: 0 auto 15px;
-            border: 3px solid #3498db;
-        }
-        
-        .sidebar h3 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .sidebar ul {
-            list-style: none;
-        }
-        
-        .sidebar li {
-            margin-bottom: 10px;
-        }
-        
-        .sidebar a {
-            color: #34495e;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-        
-        .sidebar a:hover {
-            color: #3498db;
-        }
-        
-        /* 内容区样式 */
-        .content {
-            flex: 1;
-            background-color: #fff;
-            border-radius: 8px;
-            padding: 30px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-        
-        .article {
-            margin-bottom: 40px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .article:last-child {
-            margin-bottom: 0;
-            padding-bottom: 0;
-            border-bottom: none;
-        }
-        
-        .article h2 {
-            color: #2c3e50;
-            margin-bottom: 10px;
-        }
-        
-        .article a {
-            color: #2c3e50;
-            text-decoration: none;
-        }
-        
-        .article a:hover {
-            color: #3498db;
-        }
-        
-        .post-meta {
-            color: #7f8c8d;
-            font-size: 0.9rem;
-            margin-bottom: 15px;
-        }
-        
-        .read-more {
-            display: inline-block;
-            background-color: #3498db;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-weight: 500;
-            margin-top: 10px;
-            transition: background-color 0.3s;
-        }
-        
-        .read-more:hover {
-            background-color: #2980b9;
-        }
-        
-        /* 页脚样式 */
-        footer {
-            background-color: #2c3e50;
-            color: #ecf0f1;
-            text-align: center;
-            padding: 20px 0;
-            border-radius: 0 0 8px 8px;
-            margin-top: 30px;
-        }
-        
-        /* 模态弹窗样式 */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0, 0, 0, 0.7);
-            z-index: 1000;
-            overflow: auto;
-        }
-        
-        .modal-content {
-            background-color: #fff;
-            margin: 10% auto;
-            padding: 30px;
-            width: 70%;
-            max-width: 600px;
-            border-radius: 8px;
-            position: relative;
-            animation: modalFadeIn 0.3s;
-        }
-        
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-30px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .close-modal {
-            position: absolute;
-            top: 15px;
-            right: 20px;
-            font-size: 24px;
-            font-weight: bold;
-            color: #7f8c8d;
-            cursor: pointer;
-            transition: color 0.3s;
-        }
-        
-        .close-modal:hover {
-            color: #2c3e50;
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 768px) {
-            .main-content {
-                flex-direction: column;
-            }
-            
-            .sidebar {
-                width: 100%;
-                margin-bottom: 30px;
-            }
-            
-            .modal-content {
-                width: 90%;
-                margin: 20% auto;
-            }
-        }
-    </style>
+                .refuse {
+                    background-color: #ebe6df;
+                    color: #000;
+                              height: 40px;
+                    font-size: 18px;
+                    min-width: 90px;
+                    /*width: 120px;*/
+                    margin: 10px 0;
+                    border: none;
+                    border-radius: 20px;
+                    cursor: pointer;
+                    transition: all 0.3s ease; /* 添加过渡效果 */
+                }
+                #yesimage{
+                        width: 17.5rem;
+            height: 11.875rem;
+            margin: 2.25rem auto 0;
+                }
+                .end-text{
+                    font-size: 7vw;
+                }
+            </style>
+    
 </head>
 <body>
-    <div class="container">
-        <header class="header">
-            <h1>我的个人博客</h1>
-            <p>记录成长，分享知识</p>
-        </header>
-        
-        <nav>
-            <ul>
-                <li><a href="#" id="home-link">首页</a></li>
-                <li><a href="#" id="about-link">关于我</a></li>
-                <li><a href="#" id="projects-link">项目展示</a></li>
-                <li><a href="#" id="contact-link">联系我</a></li>
-            </ul>
-        </nav>
-        
-        <div class="main-content">
-            <aside class="sidebar">
-                <div class="profile">
-                    <img src="https://via.placeholder.com/150" alt="博主头像" class="profile-img">
-                    <h3>关于博主</h3>
-                    <p>热爱编程、热爱生活的技术宅，喜欢分享技术心得和生活感悟。</p>
-                </div>
-                
-                <h3>最新文章</h3>
-                <ul>
-                    <li><a href="#">如何搭建个人博客</a></li>
-                    <li><a href="#">2023年最值得学习的编程语言</a></li>
-                    <li><a href="#">我的年度阅读清单</a></li>
-                </ul>
-                
-                <h3>分类</h3>
-                <ul>
-                    <li><a href="#">技术 (12)</a></li>
-                    <li><a href="#">生活 (8)</a></li>
-                    <li><a href="#">旅行 (6)</a></li>
-                    <li><a href="#">读书笔记 (10)</a></li>
-                </ul>
-                
-                <h3>热门标签</h3>
-                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">JavaScript</span>
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">CSS</span>
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">HTML</span>
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">Python</span>
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">旅行</span>
-                    <span style="background-color: #f1f1f1; padding: 5px 10px; border-radius: 15px; font-size: 0.8rem; color: #555;">读书</span>
-                </div>
-            </aside>
-            
-            <section class="content">
-                <article class="article">
-                    <h2><a href="#">如何搭建一个简单高效的个人博客</a></h2>
-                    <div class="post-meta">发布于 2023年10月15日 | 分类：技术</div>
-                    <p>搭建个人博客是展示自己技术和思想的好方式。本文将介绍如何使用HTML、CSS和JavaScript从零开始搭建一个简单但功能完善的个人博客，包括文章发布、分类、标签和评论系统等功能的实现。</p>
-                    <a href="#" class="read-more">阅读更多</a>
-                </article>
-                
-                <article class="article">
-                    <h2><a href="#">2023年最值得学习的编程语言</a></h2>
-                    <div class="post-meta">发布于 2023年9月28日 | 分类：技术</div>
-                    <p>随着技术的发展，编程语言的流行度也在不断变化。本文将分析2023年最受欢迎的编程语言，并根据市场需求和个人发展建议选择适合你的语言，帮助你在职业生涯中取得更好的发展。</p>
-                    <a href="#" class="read-more">阅读更多</a>
-                </article>
-                
-                <article class="article">
-                    <h2><a href="#">我的年度阅读清单</a></h2>
-                    <div class="post-meta">发布于 2023年9月10日 | 分类：读书笔记</div>
-                    <p>阅读是获取知识和灵感的重要途径。本文将分享我今年最值得推荐的10本书，涵盖技术、哲学、心理学等多个领域，希望能给你的阅读之旅提供参考。</p>
-                    <a href="#" class="read-more">阅读更多</a>
-                </article>
-            </section>
-        </div>
-        
-        <footer>
-            <p>&copy; 2023 我的个人博客. 保留所有权利.</p>
-        </footer>
-    </div>
-    
-    <!-- 模态弹窗 -->
-    <div id="about-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <h2 style="color: #2c3e50; margin-bottom: 20px;">关于博主</h2>
-            <img src="https://via.placeholder.com/200" alt="博主照片" style="display: block; margin: 0 auto 20px; border-radius: 50%; width: 200px; height: 200px; object-fit: cover;">
-            <p style="line-height: 1.8; color: #34495e;">
-                我是一名热爱技术的开发工程师，拥有5年以上的Web开发经验。我专注于前端开发，同时也涉猎后端技术和全栈应用开发。我相信技术的力量可以改变世界，也希望通过这个博客与更多志同道合的朋友交流学习。
-            </p>
-            <p style="line-height: 1.8; color: #34495e; margin-top: 20px;">
-                除了编程，我还热爱旅行、摄影和阅读。这些爱好让我在生活中保持平衡，也给我带来了很多灵感和创意。
-            </p>
-            <p style="line-height: 1.8; color: #34495e; margin-top: 20px;">
-                如果你对我的文章感兴趣，或者有任何问题或建议，欢迎通过联系页面与我交流！
-            </p>
-        </div>
-    </div>
+   <div class="container containers">
+           <div class="img-box"><img id="imga" src="https://dy.dw0.cn/uploads/20250222/f2619d03e0962548b6554e3313fcc2b3.gif" alt=""></div>
+           <div class="text">可以成为我的朋友吗？</div>
+           <div class="button-group">
+               <button class="btn agree"> 可以 </button>
+               <button class="refuse">不要</button>
+           </div>
+       </div>
+       
+       <div class="container containert" style="display:none;"><div class="empty"></div><div class="end-text">太好啦！！！</div><img id="yesimage" src="https://dy.dw0.cn/uploads/20250222/92c4fd68976be39d0378f2704b4fadff.png" class="suki-friend" alt=""></div>
 
-    <script>
-        // 获取DOM元素
-        const aboutLink = document.getElementById('about-link');
-        const modal = document.getElementById('about-modal');
-        const closeModal = document.querySelector('.close-modal');
-        
-        // 点击"关于我"链接打开弹窗
-        aboutLink.addEventListener('click', function(e) {
-            e.preventDefault();
-            modal.style.display = 'block';
-            document.body.style.overflow = 'hidden'; // 防止背景滚动
-        });
-        
-        // 点击关闭按钮关闭弹窗
-        closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-            document.body.style.overflow = 'auto'; // 恢复背景滚动
-        });
-        
-        // 点击弹窗外部关闭弹窗
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                modal.style.display = 'none';
-                document.body.style.overflow = 'auto';
-            }
-        });
-        
-        // 点击其他导航链接模拟页面切换效果
-        const navLinks = document.querySelectorAll('nav a');
-        navLinks.forEach(link => {
-            link.addEventListener('click', function(e) {
-                if (this.id === 'about-link') return; // 跳过"关于我"链接
-                e.preventDefault();
-                alert('页面切换功能正在开发中...');
-            });
-        });
-    </script>
-</body>
+    </body>
 </html>
