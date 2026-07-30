@@ -607,6 +607,102 @@
     gap: 6px;
   }
 
+  /* 求签弹窗 */
+  .qiuqian-modal {
+    max-width: 420px;
+  }
+
+  .qiuqian-body {
+    padding: 24px;
+    text-align: center;
+  }
+
+  .qiuqian-title {
+    font-size: 16px;
+    color: #f0d89a;
+    font-weight: 600;
+    margin-bottom: 20px;
+  }
+
+  .qiuqian-content {
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 24px 20px;
+    margin-bottom: 20px;
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .qiuqian-placeholder {
+    color: #7a8a9a;
+    font-size: 14px;
+  }
+
+  .qiuqian-poem {
+    font-size: 15px;
+    color: #d8e4ec;
+    line-height: 2;
+    margin-bottom: 16px;
+    white-space: pre-line;
+  }
+
+  .qiuqian-meaning {
+    font-size: 13px;
+    color: #a8bcc8;
+    line-height: 1.8;
+    padding-top: 12px;
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .qiuqian-footer {
+    margin-bottom: 20px;
+  }
+
+  .qiuqian-meta {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    font-size: 13px;
+    color: #8a9bab;
+  }
+
+  .qiuqian-meta span {
+    padding: 4px 12px;
+    background: rgba(120, 200, 220, 0.1);
+    border-radius: 6px;
+  }
+
+  .qiuqian-btn {
+    width: 100%;
+    padding: 14px 24px;
+    background: linear-gradient(135deg, rgba(240, 216, 154, 0.2), rgba(200, 160, 100, 0.15));
+    border: 1px solid rgba(240, 216, 154, 0.4);
+    border-radius: 10px;
+    color: #f0d89a;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .qiuqian-btn:hover {
+    background: linear-gradient(135deg, rgba(240, 216, 154, 0.3), rgba(200, 160, 100, 0.25));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(240, 216, 154, 0.2);
+  }
+
+  .qiuqian-btn:active {
+    transform: translateY(0);
+  }
+
+  .qiuqian-btn.loading {
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
   /* Responsive */
   @media (max-width: 900px) {
     .top-section {
@@ -665,8 +761,9 @@
       <div class="quote-card">
         <div class="quote-marks">"</div>
         <div class="quote-text" id="ipInfo">
-          <em id="ipLocation">加载位置信息中...</em>
-          <span id="ipDetail">正在获取您的IP位置</span>
+          <div style="font-size: xx-large;">欢迎来自</div>
+          <em id="ipLocation" style="font-size: large;color: #0a959f;" >加载位置信息中...</em>
+          <span id="ipDetail" style="font-size: xx-large;">正在获取您的IP位置</span>
         </div>
         <div class="quote-icon">
           <span title="朋友圈">
@@ -690,9 +787,8 @@
               <div class="date-label" id="dateLabel">2026 年 07 月 30 日 星期四</div>
               <div class="clock" id="clock">09:27:24</div>
             </div>
-            <div class="weather">
-              张家口市晴 27°C<br>
-              东南风 ≤3 级
+            <div class="weather" id="weatherInfo">
+              加载中...
             </div>
           </div>
         </div>
@@ -750,6 +846,32 @@
         </div>
       </div>
 
+      <!-- Qiuqian Modal -->
+      <div class="modal-overlay" id="qiuqianModal">
+        <div class="modal-content qiuqian-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>🎋</span>
+              文昌帝君灵签
+            </div>
+            <button class="modal-close" id="qqCloseBtn">✕</button>
+          </div>
+          <div class="qiuqian-body">
+            <div class="qiuqian-title" id="qqTitle">点击下方按钮求签</div>
+            <div class="qiuqian-content" id="qqContent">
+              <div class="qiuqian-placeholder">🙏 虔诚祈福，心想事成</div>
+            </div>
+            <div class="qiuqian-footer" id="qqFooter" style="display:none;">
+              <div class="qiuqian-meta">
+                <span id="qqNumber">第 X 签</span>
+                <span id="qqType">签类型</span>
+              </div>
+            </div>
+            <button class="qiuqian-btn" id="qqBtn">🙏 求签</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Website List -->
       <div>
         <div class="section-title">
@@ -775,11 +897,11 @@
             </div>
             <div class="website-name">今日黄历</div>
           </a>
-          <a href="#" class="website-card">
+          <a href="#" class="website-card" id="qiuqianCard">
             <div class="website-icon">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg>
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M12 22V12"/><path d="M20 12v5.5a2.5 2.5 0 0 1-5 0V12"/><path d="M4 12v5.5a2.5 2.5 0 0 0 5 0V12"/></svg>
             </div>
-            <div class="website-name">B站</div>
+            <div class="website-name">求签</div>
           </a>
           <a href="#" class="website-card">
             <div class="website-icon">
@@ -820,6 +942,11 @@
   updateClock();
   setInterval(updateClock, 1000);
 
+  const apiHeaders = {
+    'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+    
+  };
+
   const quoteSection = document.getElementById('quoteSection');
   const quoteText = document.getElementById('quoteText');
 
@@ -827,7 +954,7 @@
     quoteSection.classList.add('loading');
     quoteText.textContent = '加载中...';
     try {
-      const res = await fetch('https://api.timelessq.com/sentence');
+      const res = await fetch('https://api.timelessq.com/sentence', { headers: apiHeaders });
       const json = await res.json();
       if (json.errno === 0 && json.data) {
         const { hitokoto, from, from_who } = json.data;
@@ -852,6 +979,7 @@
   async function fetchIpInfo() {
     const ipLoc = document.getElementById('ipLocation');
     const ipDet = document.getElementById('ipDetail');
+    const weatherInfo = document.getElementById('weatherInfo');
 
     let localIps = [];
     let publicIps = [];
@@ -897,34 +1025,100 @@
 
     if (displayIp) {
       try {
-        console.log(displayIp);
-        const locRes = await fetch('https://v2.xxapi.cn/api/ip=' + displayIp);
-        const locData = await locRes.json();
-        console.log(locRes);
-        console.log(locData);
-        if (locData.ip) {
+        let locData = null;
+        try {
+          const locRes = await fetch('https://uapis.cn/api/v1/network/ipinfo?ip=' + displayIp, { headers: apiHeaders });
+          locData = await locRes.json();
+        } catch (e) {
+          // fallback to v2.xxapi.cn
+          const fallbackRes = await fetch('https://v2.xxapi.cn/api/ip?ip=' + displayIp, { headers: apiHeaders });
+          const fallbackData = await fallbackRes.json();
+          console.log(fallbackData);
+          if (fallbackData.data && fallbackData.data.address) {
+            locData = {
+              ip: displayIp,
+              region: fallbackData.data.address,
+              city: extractCityFromAddress(fallbackData.data.address)
+            };
+          }
+        }
+
+        if (locData && (locData.ip || locData.region)) {
           const region = locData.region || '未知位置';
-          const isp = locData.isp || '';
-          ipLoc.textContent = region;
-          let detail = displayIp;
-          if (localIp) detail += ' · 本机 ' + localIp;
-          if (isp) detail += ' · ' + isp;
-          ipDet.textContent = detail;
+          ipLoc.textContent = region + '的用户';
+          ipDet.textContent = '访问本站';
+          const city = extractCity(locData);
+          if (city) {
+            fetchWeather(city);
+          } else {
+            weatherInfo.textContent = '天气信息暂不可用';
+          }
         } else {
-          ipLoc.textContent = displayIp;
-          ipDet.textContent = localIp ? ('本机 ' + localIp) : '';
+          ipLoc.textContent = '欢迎访问';
+          ipDet.textContent = '位置查询失败';
+          weatherInfo.textContent = '天气信息暂不可用';
         }
       } catch (e) {
-        ipLoc.textContent = displayIp;
-        ipLoc.style.color = 'red';
+        ipLoc.textContent = '欢迎访问';
         ipDet.textContent = '位置查询失败';
+        weatherInfo.textContent = '天气信息暂不可用';
       }
     } else {
       ipLoc.textContent = '欢迎访问';
       ipDet.textContent = 'WebRTC不可用';
+      weatherInfo.textContent = '天气信息暂不可用';
     }
   }
   fetchIpInfo();
+
+  function extractCity(locData) {
+    if (!locData) return '';
+    if (locData.city && typeof locData.city === 'string' && locData.city.length > 0) return locData.city;
+    if (locData.province && typeof locData.province === 'string' && locData.province.length > 0) return locData.province;
+    if (locData.region) {
+      const parts = locData.region.split(/[省市自治区特别行政区]/);
+      for (const p of parts) {
+        if (p && p.length >= 2 && p.length <= 5) return p;
+      }
+    }
+    return '';
+  }
+
+  function extractCityFromAddress(address) {
+    if (!address) return '';
+    const match = address.match(/([\u4e00-\u9fa5]{2,5}市|[\u4e00-\u9fa5]{2,5}区|[\u4e00-\u9fa5]{2,5}县)/);
+    if (match) return match[1];
+    const parts = address.split(/[省市自治区特别行政区]/);
+    for (const p of parts) {
+      if (p && p.length >= 2 && p.length <= 5) return p;
+    }
+    return '';
+  }
+
+  async function fetchWeather(city) {
+    const weatherInfo = document.getElementById('weatherInfo');
+    try {
+      const res = await fetch('https://uapis.cn/api/v1/misc/weather?city=' + encodeURIComponent(city), { headers: apiHeaders });
+      const data = await res.json();
+      if (data.code === 0 && data.data) {
+        const w = data.data;
+        const cityName = w.city || city;
+        const weatherText = w.text || w.info || '';
+        const temp = w.temperature || w.temp || '';
+        const windDirection = w.wind_direction || w.windDirection || '';
+        const windScale = w.wind_scale || w.windScale || w.wind_level || '';
+        let html = cityName;
+        if (weatherText) html += weatherText;
+        if (temp) html += ' ' + temp + '°C';
+        if (windDirection || windScale) html += '<br>' + (windDirection || '') + (windScale || '');
+        weatherInfo.innerHTML = html;
+      } else {
+        weatherInfo.textContent = city + ' · 天气未知';
+      }
+    } catch (e) {
+      weatherInfo.textContent = city + ' · 天气获取失败';
+    }
+  }
 
   function getCurrentShichenIndex(hour) {
     if (hour === 23 || hour === 0) return 0;
@@ -969,7 +1163,7 @@
 
   async function fetchHuangli() {
     try {
-      const res = await fetch('https://api.timelessq.com/time/shichen');
+      const res = await fetch('https://api.timelessq.com/time/shichen', { headers: apiHeaders });
       const json = await res.json();
       if (json.errno === 0 && Array.isArray(json.data)) {
         const now = new Date();
@@ -1055,6 +1249,85 @@
 
     container.innerHTML = html;
   }
+
+  // 求签弹窗逻辑
+  const qiuqianModal = document.getElementById('qiuqianModal');
+  const qiuqianCard = document.getElementById('qiuqianCard');
+  const qqCloseBtn = document.getElementById('qqCloseBtn');
+  const qqBtn = document.getElementById('qqBtn');
+  const qqTitle = document.getElementById('qqTitle');
+  const qqContent = document.getElementById('qqContent');
+  const qqFooter = document.getElementById('qqFooter');
+  const qqNumber = document.getElementById('qqNumber');
+  const qqType = document.getElementById('qqType');
+
+  function openQiuqianModal() {
+    qiuqianModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeQiuqianModal() {
+    qiuqianModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  qiuqianCard.addEventListener('click', (e) => {
+    e.preventDefault();
+    openQiuqianModal();
+  });
+
+  qqCloseBtn.addEventListener('click', closeQiuqianModal);
+
+  qiuqianModal.addEventListener('click', (e) => {
+    if (e.target === qiuqianModal) closeQiuqianModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && qiuqianModal.classList.contains('active')) {
+      closeQiuqianModal();
+    }
+  });
+
+  async function fetchQiuqian() {
+    qqBtn.classList.add('loading');
+    qqBtn.textContent = '正在求签...';
+    qqContent.innerHTML = '<div class="qiuqian-placeholder">🔮 神明指引中...</div>';
+    qqFooter.style.display = 'none';
+
+    try {
+      const res = await fetch('https://v2.xxapi.cn/api/wenchangdijunrandom', { headers: apiHeaders });
+      const json = await res.json();
+
+      if (json.code === 200 && json.data) {
+        const data = json.data;
+        qqTitle.textContent = '🎋 ' + (data.name || '文昌帝君灵签');
+
+        let html = '';
+        if (data.poem) {
+          html += `<div class="qiuqian-poem">${data.poem.replace(/\n/g, '\n')}</div>`;
+        }
+        if (data.meaning) {
+          html += `<div class="qiuqian-meaning">${data.meaning}</div>`;
+        }
+        qqContent.innerHTML = html || '<div class="qiuqian-placeholder">签文已出，静心体悟</div>';
+
+        if (data.number || data.type) {
+          qqNumber.textContent = data.number ? `第 ${data.number} 签` : '';
+          qqType.textContent = data.type || '';
+          qqFooter.style.display = 'block';
+        }
+      } else {
+        qqContent.innerHTML = '<div class="qiuqian-placeholder">求签失败，请重试</div>';
+      }
+    } catch (e) {
+      qqContent.innerHTML = '<div class="qiuqian-placeholder">网络错误，请重试</div>';
+    } finally {
+      qqBtn.classList.remove('loading');
+      qqBtn.textContent = '🙏 再次求签';
+    }
+  }
+
+  qqBtn.addEventListener('click', fetchQiuqian);
 </script>
 </body>
 </html>
