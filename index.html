@@ -166,6 +166,21 @@
     border-radius: 12px;
     padding: 18px 24px;
     text-align: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    user-select: none;
+    position: relative;
+  }
+
+  .quote-section:hover {
+    background: rgba(30, 60, 80, 0.65);
+    border-color: rgba(120, 200, 220, 0.3);
+    transform: translateY(-2px);
+  }
+
+  .quote-section.loading {
+    opacity: 0.5;
+    pointer-events: none;
   }
 
   .quote-of-day {
@@ -319,7 +334,7 @@
     <div class="left-column">
       <div class="profile-row">
         <div class="avatar">
-          <img src="https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=portrait%20of%20a%20person%20soft%20lighting%20natural%20warm%20tone%20photography&image_size=square" alt="avatar">
+          <img src="https://images.xxapi.cn/images/head/0896648880.jpg" alt="avatar">
         </div>
         <div class="site-title">知识混子</div>
       </div>
@@ -358,10 +373,9 @@
       </div>
 
       <!-- Quote Section -->
-      <div class="quote-section">
-        <div class="quote-of-day">
-          人生，自在意，得其乐。<br>
-          — <span class="original">「原创」</span>
+      <div class="quote-section" id="quoteSection" title="点击换一句">
+        <div class="quote-of-day" id="quoteText">
+          点击获取句子...
         </div>
       </div>
 
@@ -434,6 +448,35 @@
   }
   updateClock();
   setInterval(updateClock, 1000);
+
+  const quoteSection = document.getElementById('quoteSection');
+  const quoteText = document.getElementById('quoteText');
+
+  async function fetchQuote() {
+    quoteSection.classList.add('loading');
+    quoteText.textContent = '加载中...';
+    try {
+      const res = await fetch('https://api.timelessq.com/sentence');
+      const json = await res.json();
+      if (json.errno === 0 && json.data) {
+        const { hitokoto, from, from_who } = json.data;
+        let html = hitokoto;
+        if (from_who || from) {
+          html += `<br>— <span class="original">${from_who || ''}${from ? '《' + from + '》' : ''}</span>`;
+        }
+        quoteText.innerHTML = html;
+      } else {
+        quoteText.textContent = '获取失败，请重试';
+      }
+    } catch (e) {
+      quoteText.textContent = '网络错误，点击重试';
+    } finally {
+      quoteSection.classList.remove('loading');
+    }
+  }
+
+  quoteSection.addEventListener('click', fetchQuote);
+  fetchQuote();
 </script>
 </body>
 </html>
