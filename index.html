@@ -212,7 +212,38 @@
     font-size: 13px;
     color: #a8bcc8;
     text-align: left;
-    line-height: 1.6;
+    line-height: 1.5;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .weather-city {
+    font-size: 12px;
+    color: #8fa8b8;
+    font-weight: 500;
+  }
+  .weather-main {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .weather-text {
+    font-size: 14px;
+    color: #c8dce8;
+  }
+  .weather-temp {
+    font-size: 16px;
+    font-weight: 600;
+    color: #7ec8e3;
+  }
+  .weather-sub {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: #8fa8b8;
   }
 
   .date-label {
@@ -944,7 +975,10 @@
 
   const apiHeaders = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-    
+    'Accept': 'application/json, text/plain, */*',
+    'Accept-Language': 'zh-CN,zh;q=0.9,en;q=0.8',
+    'Referer': 'https://www.google.com/',
+    'Origin': 'https://www.google.com'
   };
 
   const quoteSection = document.getElementById('quoteSection');
@@ -1097,26 +1131,69 @@
 
   async function fetchWeather(city) {
     const weatherInfo = document.getElementById('weatherInfo');
+    weatherInfo.textContent = '加载中...';
     try {
-      const res = await fetch('https://uapis.cn/api/v1/misc/weather?city=' + encodeURIComponent(city), { headers: apiHeaders });
-      const data = await res.json();
-      if (data.code === 0 && data.data) {
-        const w = data.data;
-        const cityName = w.city || city;
-        const weatherText = w.text || w.info || '';
-        const temp = w.temperature || w.temp || '';
-        const windDirection = w.wind_direction || w.windDirection || '';
-        const windScale = w.wind_scale || w.windScale || w.wind_level || '';
-        let html = cityName;
-        if (weatherText) html += weatherText;
-        if (temp) html += ' ' + temp + '°C';
-        if (windDirection || windScale) html += '<br>' + (windDirection || '') + (windScale || '');
+      let w = null;
+      let cityName = city;
+      try {
+        const res = await fetch('https://uapis.cn/api/v1/misc/weather?city=' + encodeURIComponent(city), { headers: apiHeaders });
+        const data = await res.json();
+        console.log('[Weather API] uapis.cn response:', data);
+        if (data) {
+          if (data.code === 0 && data.data) {
+            w = data.data;
+          } else if (data.weather !== undefined || data.temperature !== undefined) {
+            w = data;
+          }
+        }
+      } catch (e1) {
+        console.warn('[Weather API] uapis.cn failed, trying fallback...', e1);
+      }
+
+      if (!w) {
+        try {
+          const res2 = await fetch('https://v2.xxapi.cn/api/tianqi?city=' + encodeURIComponent(city), { headers: apiHeaders });
+          const data2 = await res2.json();
+          console.log('[Weather API] fallback response:', data2);
+          if (data2 && data2.code === 200 && data2.data) {
+            w = data2.data;
+          } else if (data2 && (data2.weather !== undefined || data2.temperature !== undefined)) {
+            w = data2;
+          }
+        } catch (e2) {
+          console.warn('[Weather API] fallback also failed:', e2);
+        }
+      }
+
+      if (w) {
+        cityName = w.city || city;
+        const weatherText = w.weather || w.text || w.info || w.tianqi || '';
+        let temp = w.temperature !== undefined ? w.temperature : (w.temp !== undefined ? w.temp : '');
+        const windDirection = w.wind_direction || w.windDirection || w.fengxiang || '';
+        const windScale = w.wind_power || w.wind_scale || w.windScale || w.wind_level || w.fengli || '';
+        const humidity = w.humidity !== undefined ? w.humidity : (w.shidu !== undefined ? w.shidu : '');
+
+        let html = '<div class="weather-city">' + cityName + '</div>';
+        if (weatherText || temp !== '') {
+          html += '<div class="weather-main">';
+          if (weatherText) html += '<span class="weather-text">' + weatherText + '</span>';
+          if (temp !== '') html += '<span class="weather-temp">' + temp + '°C</span>';
+          html += '</div>';
+        }
+        if (windDirection || windScale || humidity !== '') {
+          html += '<div class="weather-sub">';
+          if (windDirection) html += '<span>' + windDirection + '</span>';
+          if (windScale) html += '<span>' + windScale + '</span>';
+          if (humidity !== '') html += '<span>湿度' + humidity + '%</span>';
+          html += '</div>';
+        }
         weatherInfo.innerHTML = html;
       } else {
-        weatherInfo.textContent = city + ' · 天气未知';
+        weatherInfo.innerHTML = '<div class="weather-city">' + city + '</div><div class="weather-sub">天气暂不可用</div>';
       }
     } catch (e) {
-      weatherInfo.textContent = city + ' · 天气获取失败';
+      console.error('[Weather API] fatal error:', e);
+      weatherInfo.innerHTML = '<div class="weather-city">' + city + '</div><div class="weather-sub">天气获取失败</div>';
     }
   }
 
