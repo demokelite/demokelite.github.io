@@ -734,6 +734,165 @@
     pointer-events: none;
   }
 
+  /* 正在开发弹窗 */
+  .developing-modal {
+    max-width: 380px;
+  }
+
+  .developing-body {
+    padding: 32px 28px 28px;
+    text-align: center;
+  }
+
+  .developing-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 56px;
+    margin-bottom: 18px;
+    animation: devBounce 1.6s ease-in-out infinite;
+  }
+
+  .developing-icon svg {
+    display: block;
+    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+  }
+
+  @keyframes devBounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+  }
+
+  .developing-title {
+    font-size: 20px;
+    font-weight: 600;
+    color: #f0d89a;
+    margin-bottom: 10px;
+  }
+
+  .developing-desc {
+    font-size: 14px;
+    color: #a8bcc8;
+    line-height: 1.7;
+    margin-bottom: 20px;
+  }
+
+  .developing-loader {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 24px;
+  }
+
+  .developing-loader span {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(120, 200, 220, 0.5);
+    animation: devDot 1.4s ease-in-out infinite;
+  }
+
+  .developing-loader span:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .developing-loader span:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes devDot {
+    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
+    40% { transform: scale(1); opacity: 1; }
+  }
+
+  .developing-btn {
+    padding: 12px 36px;
+    background: rgba(120, 200, 220, 0.12);
+    border: 1px solid rgba(120, 200, 220, 0.3);
+    border-radius: 10px;
+    color: #8fd4e2;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .developing-btn:hover {
+    background: rgba(120, 200, 220, 0.22);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(120, 200, 220, 0.2);
+  }
+
+  /* Visit Counter */
+  .visit-counter {
+    margin-top: 30px;
+    padding: 18px 24px;
+    background: rgba(15, 30, 40, 0.55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 36px;
+    flex-wrap: wrap;
+  }
+
+  .counter-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #b8c8d4;
+    font-size: 14px;
+  }
+
+  .counter-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(120, 200, 220, 0.12);
+    color: #8fd4e2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .counter-label {
+    font-size: 12px;
+    color: #8a9bab;
+    margin-bottom: 2px;
+  }
+
+  .counter-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 18px;
+    font-weight: 700;
+    color: #e8f4f8;
+    letter-spacing: 1px;
+    text-shadow: 0 0 10px rgba(120, 200, 220, 0.2);
+  }
+
+  .counter-divider {
+    width: 1px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+  }
+
+  @media (max-width: 500px) {
+    .visit-counter {
+      gap: 20px;
+      padding: 16px;
+    }
+    .counter-divider {
+      display: none;
+    }
+    .counter-value {
+      font-size: 16px;
+    }
+  }
+
   /* Responsive */
   @media (max-width: 900px) {
     .top-section {
@@ -903,6 +1062,52 @@
         </div>
       </div>
 
+      <!-- Developing Modal -->
+      <div class="modal-overlay" id="developingModal">
+        <div class="modal-content developing-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>🚧</span>
+              <span id="devModalName">正在开发</span>
+            </div>
+            <button class="modal-close" id="devCloseBtn">✕</button>
+          </div>
+          <div class="developing-body">
+            <div class="developing-icon">
+              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <!-- 房子 -->
+                <path d="M6 30 L21 15 L36 30 L36 54 L6 54 Z" fill="rgba(240,216,154,0.1)" stroke="#f0d89a" stroke-width="2" stroke-linejoin="round"/>
+                <rect x="14" y="42" width="9" height="12" fill="none" stroke="#f0d89a" stroke-width="1.8"/>
+                <rect x="25" y="37" width="7" height="6" fill="rgba(126,200,227,0.2)" stroke="#7ec8e3" stroke-width="1.5"/>
+                <!-- 小人头 -->
+                <circle cx="51" cy="26" r="4" fill="#7ec8e3"/>
+                <!-- 安全帽 -->
+                <path d="M46.5 25 Q46.5 19.5 51 19.5 Q55.5 19.5 55.5 25 Z" fill="#f0d89a"/>
+                <rect x="45.5" y="24.5" width="11" height="1.8" rx="0.9" fill="#f0d89a"/>
+                <!-- 身体 -->
+                <line x1="51" y1="30" x2="51" y2="44" stroke="#7ec8e3" stroke-width="2.6" stroke-linecap="round"/>
+                <!-- 手臂 -->
+                <line x1="51" y1="34" x2="45" y2="40" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="51" y1="34" x2="58" y2="29" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
+                <!-- 锤子 -->
+                <g transform="rotate(40 58 29)">
+                  <rect x="54" y="27" width="8" height="4.5" rx="1" fill="#f0d89a"/>
+                </g>
+                <!-- 腿 -->
+                <line x1="51" y1="44" x2="47" y2="55" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
+                <line x1="51" y1="44" x2="55" y2="55" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="developing-title" id="devTitle">博客</div>
+            <div class="developing-desc">该功能正在紧锣密鼓地开发中，敬请期待～</div>
+            <div class="developing-loader">
+              <span></span><span></span><span></span>
+            </div>
+            <button class="developing-btn" id="devConfirmBtn">知道了</button>
+          </div>
+        </div>
+      </div>
+
       <!-- Website List -->
       <div>
         <div class="section-title">
@@ -910,13 +1115,13 @@
           网站列表
         </div>
         <div class="website-grid">
-          <a href="#" class="website-card">
+          <a href="#" class="website-card developing-card" data-name="博客">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             </div>
             <div class="website-name">博客</div>
           </a>
-          <a href="#" class="website-card">
+          <a href="https://github.com/demokelite" target="_blank" rel="noopener noreferrer" class="website-card">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
             </div>
@@ -934,13 +1139,13 @@
             </div>
             <div class="website-name">求签</div>
           </a>
-          <a href="#" class="website-card">
+          <a href="#" class="website-card developing-card" data-name="工具库">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             </div>
             <div class="website-name">工具库</div>
           </a>
-          <a href="#" class="website-card">
+          <a href="#" class="website-card developing-card" data-name="IT书库">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             </div>
@@ -951,9 +1156,38 @@
     </div>
   </div>
 
+  <!-- Visit Counter -->
+  <div class="visit-counter">
+    <div class="counter-item">
+      <div class="counter-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+          <circle cx="12" cy="12" r="3"/>
+        </svg>
+      </div>
+      <div>
+        <div class="counter-label">总访问量</div>
+        <div class="counter-value" id="busuanzi_value_site_pv">加载中...</div>
+      </div>
+    </div>
+    <div class="counter-divider"></div>
+    <div class="counter-item">
+      <div class="counter-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+      </div>
+      <div>
+        <div class="counter-label">访客数</div>
+        <div class="counter-value" id="busuanzi_value_site_uv">加载中...</div>
+      </div>
+    </div>
+  </div>
   
 </div>
 
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
 <script>
   function updateClock() {
     const now = new Date();
@@ -1405,6 +1639,58 @@
   }
 
   qqBtn.addEventListener('click', fetchQiuqian);
+
+  // 正在开发弹窗逻辑
+  const developingModal = document.getElementById('developingModal');
+  const devCloseBtn = document.getElementById('devCloseBtn');
+  const devConfirmBtn = document.getElementById('devConfirmBtn');
+  const devTitle = document.getElementById('devTitle');
+  const devModalName = document.getElementById('devModalName');
+
+  function openDevelopingModal(name) {
+    devTitle.textContent = name;
+    devModalName.textContent = name + ' · 开发中';
+    developingModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeDevelopingModal() {
+    developingModal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+
+  document.querySelectorAll('.developing-card').forEach(card => {
+    card.addEventListener('click', (e) => {
+      e.preventDefault();
+      const name = card.getAttribute('data-name') || '该功能';
+      openDevelopingModal(name);
+    });
+  });
+
+  devCloseBtn.addEventListener('click', closeDevelopingModal);
+  devConfirmBtn.addEventListener('click', closeDevelopingModal);
+
+  developingModal.addEventListener('click', (e) => {
+    if (e.target === developingModal) closeDevelopingModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && developingModal.classList.contains('active')) {
+      closeDevelopingModal();
+    }
+  });
+
+  // 访问量统计容错处理：如果不蒜子加载超时，显示默认值
+  setTimeout(() => {
+    const pvEl = document.getElementById('busuanzi_value_site_pv');
+    const uvEl = document.getElementById('busuanzi_value_site_uv');
+    if (pvEl && pvEl.textContent === '加载中...') {
+      pvEl.textContent = '--';
+    }
+    if (uvEl && uvEl.textContent === '加载中...') {
+      uvEl.textContent = '--';
+    }
+  }, 5000);
 </script>
 </body>
 </html>
