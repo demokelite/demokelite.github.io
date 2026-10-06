@@ -401,7 +401,9 @@
     max-width: 520px;
     width: 100%;
     max-height: 90vh;
-    overflow-y: auto;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     animation: slideUp 0.3s ease;
   }
@@ -412,6 +414,19 @@
     align-items: center;
     padding: 20px 24px;
     border-bottom: 1px solid rgba(255,255,255,0.08);
+    flex-shrink: 0;
+    background: linear-gradient(145deg, rgba(20, 40, 55, 0.98), rgba(16, 32, 44, 0.98));
+  }
+
+  /* 仅弹窗正文区滚动，头部（含关闭键）始终固定在右上角 */
+  .huangli-section,
+  .list-body,
+  .video-body,
+  .qiuqian-body,
+  .post-detail-body {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
   }
 
   .modal-title {
@@ -798,6 +813,67 @@
     line-height: 1.55;
   }
 
+  /* 博文搜索栏 */
+  .blog-search {
+    position: sticky;
+    top: 0;
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 18px;
+    padding: 10px 14px;
+    background: rgba(20, 40, 55, 0.92);
+    border: 1px solid rgba(120, 200, 220, 0.22);
+    border-radius: 10px;
+    backdrop-filter: blur(8px);
+  }
+
+  .blog-search-icon {
+    color: #7fc8d8;
+    font-size: 14px;
+    flex-shrink: 0;
+  }
+
+  .blog-search input {
+    flex: 1;
+    min-width: 0;
+    background: none;
+    border: none;
+    outline: none;
+    color: #e0eaf0;
+    font-size: 14px;
+    font-family: inherit;
+  }
+
+  .blog-search input::placeholder {
+    color: #7d909e;
+  }
+
+  .blog-search input::-webkit-search-cancel-button {
+    -webkit-appearance: none;
+  }
+
+  .blog-search-clear {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.1);
+    color: #c8d6de;
+    font-size: 11px;
+    cursor: pointer;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .blog-search-clear:hover {
+    background: rgba(255,255,255,0.2);
+    color: #fff;
+  }
+
   /* 博文列表 */
   .post-list {
     display: flex;
@@ -809,12 +885,18 @@
     background: rgba(255,255,255,0.035);
     border: 1px solid rgba(255,255,255,0.07);
     border-radius: 12px;
-    overflow: hidden;
-    transition: border-color 0.3s ease;
+    transition: all 0.3s ease;
   }
 
-  .post-item.open {
-    border-color: rgba(126, 200, 227, 0.4);
+  .post-item:hover {
+    background: rgba(120, 200, 220, 0.07);
+    border-color: rgba(126, 200, 227, 0.45);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.22);
+  }
+
+  .post-item.is-hidden {
+    display: none;
   }
 
   .post-head {
@@ -849,14 +931,16 @@
     transition: color 0.25s;
   }
 
-  .post-arrow {
-    color: #7fc8d8;
-    transition: transform 0.3s;
+  .post-readmore {
     flex-shrink: 0;
+    font-size: 12px;
+    color: #7fc8d8;
+    white-space: nowrap;
+    opacity: 0.85;
   }
 
-  .post-item.open .post-arrow {
-    transform: rotate(180deg);
+  .post-item:hover .post-readmore {
+    opacity: 1;
   }
 
   .post-meta {
@@ -881,43 +965,54 @@
     line-height: 1.7;
   }
 
-  .post-content {
-    display: none;
-    padding: 16px 20px 20px;
+  /* 搜索无结果 */
+  .post-empty {
+    text-align: center;
+    padding: 40px 20px;
+    color: #8fa3b1;
     font-size: 13px;
+  }
+
+  /* 博文详情二级弹窗正文 */
+  .post-detail-body {
+    padding: 22px 26px 28px;
+    font-size: 13.5px;
     color: #bcccd8;
     line-height: 1.9;
-    border-top: 1px dashed rgba(255,255,255,0.08);
   }
 
-  .post-item.open .post-content {
-    display: block;
-  }
-
-  .post-content p {
+  .post-detail-body p {
     margin-bottom: 12px;
   }
 
-  .post-content h4 {
+  .post-detail-body h4 {
     font-size: 14px;
     color: #8fd4e2;
-    margin: 14px 0 8px;
+    margin: 16px 0 8px;
     font-weight: 600;
   }
 
-  .post-content code {
+  .post-detail-body code {
     background: rgba(120, 200, 220, 0.14);
     padding: 1px 6px;
     border-radius: 4px;
-    font-size: 12px;
+    font-size: 12.5px;
   }
 
-  .post-content ul {
+  .post-detail-body ul {
     margin: 0 0 12px 20px;
   }
 
-  .post-content li {
+  .post-detail-body li {
     margin-bottom: 6px;
+  }
+
+  .post-detail-modal {
+    max-width: 680px;
+  }
+
+  #postDetailModal {
+    z-index: 1100;
   }
 
   /* IT 书籍 */
@@ -950,6 +1045,149 @@
     .list-body {
       padding: 20px 18px 24px;
     }
+  }
+
+  /* 视频二级弹窗 */
+  #videoModal {
+    z-index: 1100;
+  }
+
+  .video-modal {
+    max-width: 560px;
+  }
+
+  .video-body {
+    padding: 22px 24px 26px;
+  }
+
+  .chip-group-title {
+    font-size: 12px;
+    color: #7fc8d8;
+    margin: 2px 0 10px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .chip-group-title:not(:first-child) {
+    margin-top: 18px;
+  }
+
+  .chip-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chip {
+    padding: 7px 15px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-family: inherit;
+    background: rgba(255,255,255,0.05);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: #c8d6de;
+    cursor: pointer;
+    transition: all 0.25s;
+  }
+
+  .chip:hover {
+    background: rgba(120, 200, 220, 0.16);
+    border-color: rgba(126, 200, 227, 0.5);
+    color: #fff;
+  }
+
+  .chip.active {
+    background: linear-gradient(135deg, rgba(240, 216, 154, 0.25), rgba(200, 160, 100, 0.18));
+    border-color: rgba(240, 216, 154, 0.6);
+    color: #f0d89a;
+  }
+
+  .video-current {
+    font-size: 12px;
+    color: #8fa3b1;
+    margin-top: 18px;
+    text-align: center;
+    min-height: 16px;
+  }
+
+  .video-player-wrap {
+    position: relative;
+    margin: 12px auto 0;
+    height: 52vh;
+    aspect-ratio: 9 / 16;
+    max-width: 100%;
+    border-radius: 12px;
+    overflow: hidden;
+    background: #000;
+    border: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .video-player-wrap video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-state {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    text-align: center;
+    padding: 20px;
+    font-size: 13px;
+    color: #9db2c0;
+    background: rgba(10, 20, 28, 0.62);
+  }
+
+  .video-spinner {
+    width: 38px;
+    height: 38px;
+    border: 3px solid rgba(120, 200, 220, 0.2);
+    border-top-color: #7ec8e3;
+    border-radius: 50%;
+    animation: vspin 0.8s linear infinite;
+  }
+
+  @keyframes vspin {
+    to { transform: rotate(360deg); }
+  }
+
+  .video-footer {
+    margin-top: 16px;
+  }
+
+  .video-next-btn {
+    width: 100%;
+    padding: 13px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: inherit;
+    cursor: pointer;
+    background: linear-gradient(135deg, rgba(240, 216, 154, 0.2), rgba(200, 160, 100, 0.15));
+    border: 1px solid rgba(240, 216, 154, 0.4);
+    color: #f0d89a;
+    transition: all 0.3s;
+  }
+
+  .video-next-btn:hover:not(:disabled) {
+    background: linear-gradient(135deg, rgba(240, 216, 154, 0.3), rgba(200, 160, 100, 0.25));
+    transform: translateY(-2px);
+    box-shadow: 0 4px 16px rgba(240, 216, 154, 0.2);
+  }
+
+  .video-next-btn:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
   }
 
   /* Visit Counter */
@@ -1287,6 +1525,13 @@
                   <div class="lib-desc">两段文本在线 Diff 差异对比</div>
                 </div>
               </a>
+              <a href="#" class="lib-item" id="videoEntry">
+                <div class="lib-icon">🎬</div>
+                <div class="lib-info">
+                  <div class="lib-name">视频小站</div>
+                  <div class="lib-desc">JK / 慢摇 / COS 等系列短视频随机刷</div>
+                </div>
+              </a>
             </div>
           </div>
         </div>
@@ -1303,13 +1548,19 @@
             <button class="modal-close" id="blogCloseBtn">✕</button>
           </div>
           <div class="list-body">
-            <div class="post-list">
+            <div class="blog-search">
+              <span class="blog-search-icon">🔍</span>
+              <input type="search" id="blogSearchInput" placeholder="搜索标题、标签或概要..." autocomplete="off">
+              <button type="button" class="blog-search-clear" id="blogSearchClear" style="display:none;" title="清空">✕</button>
+            </div>
+
+            <div class="post-list" id="postList">
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">用 Vue3 组合式 API 重构老项目的踩坑记录</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-09-12</span>
@@ -1318,7 +1569,7 @@
                   </div>
                   <div class="post-summary">把一个两年历史的 Options API 项目迁到组合式 API，变化的不只是写法，更是组织代码的心智模型。</div>
                 </div>
-                <div class="post-content">
+                <template class="post-detail-tpl">
                   <p>接手这个项目时，同一个组件里 data、methods、watch 分散在上百行中，想改一个功能要在选项之间来回跳。重构的目标不是追新，而是让相关的逻辑重新聚拢到一起。</p>
                   <h4>为什么选 &lt;script setup&gt;</h4>
                   <p>更少的样板代码、更好的 TypeScript 推导，顶层声明直接可用于模板。一个明显的收益是：逻辑可以按功能垂直组织，而不是按选项类型水平切割。</p>
@@ -1329,14 +1580,14 @@
                     <li><code>watch</code> 监听多个源用数组形式，别忘了 <code>flush: 'post'</code> 才能拿到更新后的 DOM。</li>
                   </ul>
                   <p>抽离可复用逻辑时，把函数命名为 <code>useXxx</code> 的组合式函数，状态的归属和生命周期立刻清晰起来。重构完成后，几个核心组件的行数少了近三分之一。</p>
-                </div>
+                </template>
               </div>
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">CSS 玻璃拟态（Glassmorphism）效果完全指南</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-08-28</span>
@@ -1345,7 +1596,7 @@
                   </div>
                   <div class="post-summary">半透明背景、背景模糊、细边框和柔和阴影，四个要素拼出高级感十足的磨砂玻璃卡片。</div>
                 </div>
-                <div class="post-content">
+                <template class="post-detail-tpl">
                   <p>玻璃拟态的本质，是让元素模拟一块磨砂玻璃：背后的内容透过来但被模糊，边缘有一圈若有若无的高光。</p>
                   <h4>四要素</h4>
                   <ul>
@@ -1356,14 +1607,14 @@
                   </ul>
                   <h4>两个注意点</h4>
                   <p>Safari 需要 <code>-webkit-backdrop-filter</code> 前缀；模糊层会占用 GPU，同屏卡片过多时低端机会掉帧，建议配合内容懒加载。另外玻璃效果只在背景足够丰富时好看，纯色背景上会显得发灰。</p>
-                </div>
+                </template>
               </div>
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">前端性能优化：从 8 秒到 1.2 秒的实践清单</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-08-15</span>
@@ -1371,7 +1622,7 @@
                   </div>
                   <div class="post-summary">先测量再优化。图片、打包体积、渲染路径三管齐下，首屏加载时间的降幅可以非常可观。</div>
                 </div>
-                <div class="post-content">
+                <template class="post-detail-tpl">
                   <p>优化前先用 Lighthouse 跑一遍基线，避免凭感觉改代码。当时最大的瓶颈是首屏图片和一个未拆分的巨型 JS bundle。</p>
                   <h4>图片</h4>
                   <ul>
@@ -1381,14 +1632,14 @@
                   </ul>
                   <h4>资源与渲染</h4>
                   <p>路由级代码分割把首包砍到原来的三分之一；字体用 <code>font-display: swap</code>；对长列表上虚拟滚动。最终 LCP 从 8s 降到 1.2s，性能分从 52 涨到 94。</p>
-                </div>
+                </template>
               </div>
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">JavaScript 异步编程演进史：从回调到 async/await</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-07-30</span>
@@ -1396,18 +1647,18 @@
                   </div>
                   <div class="post-summary">回调地狱、Promise 链式调用、Generator 协程，再到今天写起来像同步代码的 async/await。</div>
                 </div>
-                <div class="post-content">
+                <template class="post-detail-tpl">
                   <p>最早处理异步只能靠回调，多层嵌套形成的"回调地狱"让错误处理和代码阅读都变成噩梦。Promise 用扁平化的 <code>.then().catch()</code> 链解决了嵌套问题，但本质仍是函数拼接。</p>
                   <p>Generator 让函数可以暂停与恢复，配合运行器一度让异步代码能以同步的形态书写；最终 ES2017 的 async/await 把这套机制标准化，成为今天的默认写法。</p>
                   <p>理解这条演进线的关键，是理解事件循环：宏任务与微任务的调度顺序，决定了 <code>await</code> 之后的代码何时执行。工具会变，底层模型不会。</p>
-                </div>
+                </template>
               </div>
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">从零搭建一个个人导航页</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-07-18</span>
@@ -1415,18 +1666,18 @@
                   </div>
                   <div class="post-summary">一个 HTML 文件、零构建、零依赖，加上时钟、天气和常用站点卡片，个人导航也可以很精致。</div>
                 </div>
-                  <div class="post-content">
+                <template class="post-detail-tpl">
                   <p>起因很简单：浏览器默认页太无聊，而现成的导航站塞满了广告。自己写一个，想要什么卡片就放什么。</p>
                   <p>技术选型刻意保持克制：单文件 HTML + 原生 JS，不引入框架，双击即可打开，扔到任何静态托管上就能跑。玻璃拟态卡片负责颜值，实时时钟和访客统计让页面有"活着"的感觉。</p>
                   <p>唯一的麻烦是第三方免费 API 不稳定，解决办法是为每个请求设置超时并准备备用接口，加载失败时给出友好提示，而不是让页面一直转圈。</p>
-                </div>
+                </template>
               </div>
 
               <div class="post-item">
                 <div class="post-head">
                   <div class="post-title-row">
                     <div class="post-title">浏览器开发者工具的 10 个冷门技巧</div>
-                    <span class="post-arrow">▾</span>
+                    <span class="post-readmore">阅读全文 →</span>
                   </div>
                   <div class="post-meta">
                     <span>📅 2026-07-02</span>
@@ -1434,7 +1685,7 @@
                   </div>
                   <div class="post-summary">console.table、条件断点、日志断点、网络节流……用好 DevTools 能省掉大量 console.log。</div>
                 </div>
-                <div class="post-content">
+                <template class="post-detail-tpl">
                   <ul>
                     <li><code>console.table(arr)</code> 把对象数组打印成表格；</li>
                     <li>控制台输入 <code>$_</code> 拿到上一个表达式结果，<code>$0</code> 是当前选中的元素；</li>
@@ -1447,13 +1698,29 @@
                     <li>Application 面板一键清理站点数据；</li>
                     <li>Ctrl+Shift+P 打开命令菜单，所有功能都能搜索执行。</li>
                   </ul>
-                </div>
+                </template>
               </div>
 
             </div>
+            <div class="post-empty" id="postEmpty" style="display:none;">🔍 没有找到匹配的博文，换个关键词试试</div>
           </div>
         </div>
       </div>
+
+      <!-- Post Detail Secondary Modal -->
+      <div class="modal-overlay" id="postDetailModal">
+        <div class="modal-content post-detail-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>📖</span>
+              <span id="postDetailTitle">博文详情</span>
+            </div>
+            <button class="modal-close" id="postDetailCloseBtn">✕</button>
+          </div>
+          <div class="post-detail-body" id="postDetailBody"></div>
+        </div>
+      </div>
+
 
       <!-- Books Modal -->
       <div class="modal-overlay" id="booksModal">
@@ -1467,86 +1734,156 @@
           </div>
           <div class="list-body">
             <div class="list-grid">
-              <a href="https://search.douban.com/book/subject_search?search_text=代码大全" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#3a6ea5,#234463);">🏗️</div>
+              <a href="https://git-scm.com/book/zh/v2" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#e86a4a,#a8411f);">🌿</div>
                 <div class="lib-info">
-                  <div class="lib-name">代码大全（第2版）</div>
-                  <div class="book-author">Steve McConnell</div>
-                  <div class="lib-desc">软件构建之道，程序员的工程百科全书</div>
+                  <div class="lib-name">Pro Git（第二版）</div>
+                  <div class="book-author">Scott Chacon</div>
+                  <div class="lib-desc">Git 官方权威书，分支协作到内部原理全免费</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=深入理解计算机系统" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#5d4e8c,#3d3360);">💻</div>
+              <a href="https://zh.javascript.info/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#e0b341,#a87f1e);">📜</div>
                 <div class="lib-info">
-                  <div class="lib-name">深入理解计算机系统</div>
-                  <div class="book-author">Randal E. Bryant</div>
-                  <div class="lib-desc">从程序员视角串起组成、链接、虚拟内存</div>
+                  <div class="lib-name">现代 JavaScript 教程</div>
+                  <div class="book-author">Ilya Kantor</div>
+                  <div class="lib-desc">从入门到精通的系统教程，配套在线练习</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=算法导论" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#2f7d6d,#1d5246);">📐</div>
+              <a href="https://ts.xcatliu.com/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#3f86d1,#1f5a96);">🔷</div>
                 <div class="lib-info">
-                  <div class="lib-name">算法导论</div>
-                  <div class="book-author">Thomas H. Cormen</div>
-                  <div class="lib-desc">数据结构与算法的严谨经典教材</div>
+                  <div class="lib-name">TypeScript 入门教程</div>
+                  <div class="book-author">xcatliu 刘奇</div>
+                  <div class="lib-desc">面向 JS 开发者，类型系统实战上手</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=设计模式" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#b07a3a,#7a5022);">🧩</div>
+              <a href="https://yeasy.gitbook.io/docker_practice" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#3aa0e8,#1763a0);">🐳</div>
                 <div class="lib-info">
-                  <div class="lib-name">设计模式</div>
-                  <div class="book-author">GoF 四人组</div>
-                  <div class="lib-desc">23 种可复用面向对象设计模式的源头</div>
+                  <div class="lib-name">Docker 从入门到实践</div>
+                  <div class="book-author">yeasy</div>
+                  <div class="lib-desc">最流行的中文容器开源书，含 Compose/K8s</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=重构 改善既有代码的设计" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#4a8f6f,#2f634c);">🌱</div>
+              <a href="http://cn.linux.vbird.org/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#5a6b7a,#2f3a46);">🐧</div>
                 <div class="lib-info">
-                  <div class="lib-name">重构（第2版）</div>
-                  <div class="book-author">Martin Fowler</div>
-                  <div class="lib-desc">用小步安全的手法持续改善既有代码</div>
+                  <div class="lib-name">鸟哥的 Linux 私房菜</div>
+                  <div class="book-author">鸟哥</div>
+                  <div class="lib-desc">Linux 基础与系统管理的经典免费教材</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=JavaScript高级程序设计" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#c4452f,#8c2f1e);">📕</div>
+              <a href="https://redisbook.com/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#d14836,#92241a);">🗄️</div>
                 <div class="lib-info">
-                  <div class="lib-name">JavaScript 高级程序设计（第4版）</div>
-                  <div class="book-author">Matt Frisbie</div>
-                  <div class="lib-desc">JS 红宝书，全面扎实的案头参考</div>
+                  <div class="lib-name">Redis 设计与实现</div>
+                  <div class="book-author">黄健宏</div>
+                  <div class="lib-desc">图解 Redis 数据结构、持久化与集群原理</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=你不知道的JavaScript" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#6e7f8d,#48555f);">📘</div>
+              <a href="https://www.hello-algo.com/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#3fb58b,#1f7d5c);">👋</div>
                 <div class="lib-info">
-                  <div class="lib-name">你不知道的 JavaScript</div>
-                  <div class="book-author">Kyle Simpson</div>
-                  <div class="lib-desc">深入作用域、闭包与 this 的机制内核</div>
+                  <div class="lib-name">Hello 算法</div>
+                  <div class="book-author">krahets 靳宇栋</div>
+                  <div class="lib-desc">动画图解数据结构与算法，14 种语言代码</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=CSS揭秘" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#d06a8c,#92445e);">🎨</div>
+              <a href="https://programmercarl.com/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#e0734f,#a84525);">🧭</div>
                 <div class="lib-info">
-                  <div class="lib-name">CSS 揭秘</div>
-                  <div class="book-author">Lea Verou</div>
-                  <div class="lib-desc">47 个 CSS 进阶技巧，刷新样式认知</div>
+                  <div class="lib-name">代码随想录</div>
+                  <div class="book-author">程序员 Carl</div>
+                  <div class="lib-desc">算法刷题路线图，面试高频题系统精讲</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=计算机网络 自顶向下方法" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#3d7ea6,#275673);">🌐</div>
+              <a href="https://gopl-zh.github.io/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#5fc0e0,#1f7ea0);">🐹</div>
                 <div class="lib-info">
-                  <div class="lib-name">计算机网络：自顶向下方法</div>
-                  <div class="book-author">James F. Kurose</div>
-                  <div class="lib-desc">从应用层出发，讲透网络协议栈</div>
+                  <div class="lib-name">Go 语言圣经</div>
+                  <div class="book-author">Donovan &amp; Kernighan</div>
+                  <div class="lib-desc">The Go Programming Language 官方中译本</div>
                 </div>
               </a>
-              <a href="https://search.douban.com/book/subject_search?search_text=操作系统导论" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
-                <div class="book-cover" style="background: linear-gradient(135deg,#8c5d4e,#603d32);">🖥️</div>
+              <a href="https://kaisery.github.io/trpl-zh-cn/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#d95a36,#96331a);">🦀</div>
                 <div class="lib-info">
-                  <div class="lib-name">操作系统导论</div>
-                  <div class="book-author">Remzi H. Arpaci-Dusseau</div>
-                  <div class="lib-desc">虚拟化、并发与持久化的现代讲义</div>
+                  <div class="lib-name">Rust 程序设计语言</div>
+                  <div class="book-author">Steve Klabnik</div>
+                  <div class="lib-desc">Rust 官方权威教程，所有权与并发全掌握</div>
                 </div>
               </a>
+              <a href="https://zh.d2l.ai/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#9a5fc0,#63337f);">🤖</div>
+                <div class="lib-info">
+                  <div class="lib-name">动手学深度学习</div>
+                  <div class="book-author">阿斯顿·张、李沐</div>
+                  <div class="lib-desc">理论加可运行代码，PyTorch/TF 双框架</div>
+                </div>
+              </a>
+              <a href="https://xiaolincoding.com/" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#6b7ee0,#3d4c9c);">🔍</div>
+                <div class="lib-info">
+                  <div class="lib-name">小林 coding 图解</div>
+                  <div class="book-author">小林</div>
+                  <div class="lib-desc">图解操作系统、计算机网络与 Redis 面试</div>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Video Secondary Modal -->
+      <div class="modal-overlay" id="videoModal">
+        <div class="modal-content video-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>🎬</span>
+              视频小站
+            </div>
+            <button class="modal-close" id="videoCloseBtn">✕</button>
+          </div>
+          <div class="video-body">
+            <div class="chip-group-title">🎞️ 系列</div>
+            <div class="chip-row" id="seriesChips">
+              <button type="button" class="chip" data-msg="JK系列">JK</button>
+              <button type="button" class="chip" data-msg="帅哥系列">帅哥</button>
+              <button type="button" class="chip" data-msg="白丝系列">白丝</button>
+              <button type="button" class="chip" data-msg="女大系列">女大</button>
+              <button type="button" class="chip" data-msg="慢摇系列">慢摇</button>
+              <button type="button" class="chip" data-msg="COS系列">COS</button>
+              <button type="button" class="chip" data-msg="黑丝系列">黑丝</button>
+              <button type="button" class="chip" data-msg="女高系列">女高</button>
+              <button type="button" class="chip" data-msg="热舞系列">热舞</button>
+              <button type="button" class="chip" data-msg="蛇姐系列">蛇姐</button>
+              <button type="button" class="chip" data-msg="穿搭系列">穿搭</button>
+              <button type="button" class="chip" data-msg="变装系列">变装</button>
+              <button type="button" class="chip" data-msg="汉服系列">汉服</button>
+            </div>
+
+            <div class="chip-group-title">✨ 其他</div>
+            <div class="chip-row" id="otherChips">
+              <button type="button" class="chip" data-msg="双倍快乐">双倍快乐</button>
+              <button type="button" class="chip" data-msg="对脸自拍">对脸自拍</button>
+              <button type="button" class="chip" data-msg="完美身材">完美身材</button>
+            </div>
+
+            <div class="video-current" id="videoCurrent">请选择一个分类开始观看</div>
+
+            <div class="video-player-wrap">
+              <video id="videoPlayer" playsinline webkit-playsinline="true" controls loop muted preload="auto" style="display:none;"></video>
+              <div class="video-state" id="videoPlaceholder">🎬<span>选择上方分类，立即开刷</span></div>
+              <div class="video-state" id="videoLoading" style="display:none;">
+                <div class="video-spinner"></div>
+                <span>视频加载中...</span>
+              </div>
+              <div class="video-state" id="videoError" style="display:none;">😵<span>视频加载失败，请换一个试试</span></div>
+            </div>
+
+            <div class="video-footer">
+              <button type="button" class="video-next-btn" id="videoNextBtn" disabled>🔄 换一个</button>
             </div>
           </div>
         </div>
@@ -2133,20 +2470,175 @@
     }
   });
 
-  // Esc 关闭任意打开的内容弹窗
+  // Esc 关闭任意打开的内容弹窗（二级弹窗打开时除外）
   document.addEventListener('keydown', (e) => {
     if (e.key !== 'Escape') return;
+    const postDetailOpen = document.getElementById('postDetailModal').classList.contains('active');
+    const videoOpen = document.getElementById('videoModal').classList.contains('active');
+    if (postDetailOpen || videoOpen) return;
     Object.values(contentModals).forEach(modal => {
       if (modal && modal.classList.contains('active')) closeContentModal(modal);
     });
   });
 
-  // 博文展开 / 收起
-  document.querySelectorAll('.post-head').forEach(head => {
-    head.addEventListener('click', () => {
-      const item = head.closest('.post-item');
-      if (item) item.classList.toggle('open');
+  // ===== 博文搜索 + 二级详情弹窗 =====
+  const blogSearchInput = document.getElementById('blogSearchInput');
+  const blogSearchClear = document.getElementById('blogSearchClear');
+  const postItems = Array.from(document.querySelectorAll('#postList .post-item'));
+  const postEmpty = document.getElementById('postEmpty');
+
+  const postDetailModal = document.getElementById('postDetailModal');
+  const postDetailTitle = document.getElementById('postDetailTitle');
+  const postDetailBody = document.getElementById('postDetailBody');
+  const postDetailCloseBtn = document.getElementById('postDetailCloseBtn');
+
+  function filterPosts(keyword) {
+    const kw = keyword.trim().toLowerCase();
+    let visibleCount = 0;
+    postItems.forEach(item => {
+      const text = (item.textContent || '').toLowerCase();
+      const match = !kw || text.includes(kw);
+      item.classList.toggle('is-hidden', !match);
+      if (match) visibleCount++;
     });
+    postEmpty.style.display = visibleCount === 0 ? 'block' : 'none';
+  }
+
+  blogSearchInput.addEventListener('input', () => {
+    const val = blogSearchInput.value;
+    blogSearchClear.style.display = val ? 'flex' : 'none';
+    filterPosts(val);
+  });
+
+  blogSearchClear.addEventListener('click', () => {
+    blogSearchInput.value = '';
+    blogSearchClear.style.display = 'none';
+    filterPosts('');
+    blogSearchInput.focus();
+  });
+
+  function openPostDetail(item) {
+    const titleEl = item.querySelector('.post-title');
+    const tpl = item.querySelector('.post-detail-tpl');
+    postDetailTitle.textContent = titleEl ? titleEl.textContent : '博文详情';
+    postDetailBody.innerHTML = tpl ? tpl.innerHTML : '';
+    postDetailBody.scrollTop = 0;
+    postDetailModal.classList.add('active');
+  }
+
+  function closePostDetail() {
+    postDetailModal.classList.remove('active');
+    postDetailBody.innerHTML = '';
+  }
+
+  postItems.forEach(item => {
+    const head = item.querySelector('.post-head');
+    if (head) {
+      head.addEventListener('click', () => openPostDetail(item));
+    }
+  });
+
+  postDetailCloseBtn.addEventListener('click', closePostDetail);
+
+  postDetailModal.addEventListener('click', (e) => {
+    if (e.target === postDetailModal) closePostDetail();
+  });
+
+  // Esc：二级详情打开时只关详情，不关下层博文弹窗
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && postDetailModal.classList.contains('active')) {
+      closePostDetail();
+    }
+  });
+
+  // ===== 视频小站 =====
+  const VIDEO_API = 'https://api.suyanw.cn/api/jhsp.php';
+
+  const videoEntry = document.getElementById('videoEntry');
+  const videoModal = document.getElementById('videoModal');
+  const videoCloseBtn = document.getElementById('videoCloseBtn');
+  const videoPlayer = document.getElementById('videoPlayer');
+  const videoNextBtn = document.getElementById('videoNextBtn');
+  const videoCurrent = document.getElementById('videoCurrent');
+  const videoPlaceholder = document.getElementById('videoPlaceholder');
+  const videoLoading = document.getElementById('videoLoading');
+  const videoError = document.getElementById('videoError');
+
+  let currentChip = null;
+
+  function showVideoState(state) {
+    videoPlaceholder.style.display = state === 'placeholder' ? 'flex' : 'none';
+    videoLoading.style.display = state === 'loading' ? 'flex' : 'none';
+    videoError.style.display = state === 'error' ? 'flex' : 'none';
+    if (state !== 'playing') {
+      videoPlayer.style.display = 'none';
+    }
+  }
+
+  function openVideoModal() {
+    videoModal.classList.add('active');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVideoModal() {
+    videoModal.classList.remove('active');
+    document.body.style.overflow = '';
+    videoPlayer.pause();
+  }
+
+  videoEntry.addEventListener('click', (e) => {
+    e.preventDefault();
+    openVideoModal();
+  });
+
+  videoCloseBtn.addEventListener('click', closeVideoModal);
+
+  videoModal.addEventListener('click', (e) => {
+    if (e.target === videoModal) closeVideoModal();
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && videoModal.classList.contains('active')) {
+      closeVideoModal();
+    }
+  });
+
+  function playVideo(chip) {
+    if (currentChip) currentChip.classList.remove('active');
+    chip.classList.add('active');
+    currentChip = chip;
+
+    const msg = chip.getAttribute('data-msg');
+    videoCurrent.textContent = '正在观看：' + chip.textContent + '（再次点击“换一个”可刷新）';
+    videoNextBtn.disabled = false;
+
+    showVideoState('loading');
+
+    // 加时间戳参数，确保每次请求都拿到新的随机视频
+    const url = VIDEO_API + '?msg=' + encodeURIComponent(msg) + '&_t=' + Date.now();
+    videoPlayer.src = url;
+    videoPlayer.load();
+  }
+
+  videoPlayer.addEventListener('loadeddata', () => {
+    showVideoState('playing');
+    videoPlayer.style.display = 'block';
+    videoPlayer.play().catch(() => {
+      // 自动播放被拦截时，用户可手动点击播放
+    });
+  });
+
+  videoPlayer.addEventListener('error', () => {
+    // 仅在确实已设置 src 时提示错误
+    if (videoPlayer.src) showVideoState('error');
+  });
+
+  document.querySelectorAll('#seriesChips .chip, #otherChips .chip').forEach(chip => {
+    chip.addEventListener('click', () => playVideo(chip));
+  });
+
+  videoNextBtn.addEventListener('click', () => {
+    if (currentChip) playVideo(currentChip);
   });
 </script>
 </body>
