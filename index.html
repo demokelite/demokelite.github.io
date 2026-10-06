@@ -734,93 +734,222 @@
     pointer-events: none;
   }
 
-  /* 正在开发弹窗 */
-  .developing-modal {
-    max-width: 380px;
+  /* 内容弹窗（工具库 / 博文 / IT书库） */
+  .list-modal {
+    max-width: 760px;
   }
 
-  .developing-body {
-    padding: 32px 28px 28px;
-    text-align: center;
+  .list-body {
+    padding: 26px 28px 30px;
   }
 
-  .developing-icon {
+  .list-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .lib-item {
     display: flex;
-    justify-content: center;
     align-items: center;
-    height: 56px;
-    margin-bottom: 18px;
-    animation: devBounce 1.6s ease-in-out infinite;
-  }
-
-  .developing-icon svg {
-    display: block;
-    filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
-  }
-
-  @keyframes devBounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .developing-title {
-    font-size: 20px;
-    font-weight: 600;
-    color: #f0d89a;
-    margin-bottom: 10px;
-  }
-
-  .developing-desc {
-    font-size: 14px;
-    color: #a8bcc8;
-    line-height: 1.7;
-    margin-bottom: 20px;
-  }
-
-  .developing-loader {
-    display: flex;
-    justify-content: center;
-    gap: 6px;
-    margin-bottom: 24px;
-  }
-
-  .developing-loader span {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: rgba(120, 200, 220, 0.5);
-    animation: devDot 1.4s ease-in-out infinite;
-  }
-
-  .developing-loader span:nth-child(2) {
-    animation-delay: 0.2s;
-  }
-
-  .developing-loader span:nth-child(3) {
-    animation-delay: 0.4s;
-  }
-
-  @keyframes devDot {
-    0%, 80%, 100% { transform: scale(0.6); opacity: 0.5; }
-    40% { transform: scale(1); opacity: 1; }
-  }
-
-  .developing-btn {
-    padding: 12px 36px;
-    background: rgba(120, 200, 220, 0.12);
-    border: 1px solid rgba(120, 200, 220, 0.3);
-    border-radius: 10px;
-    color: #8fd4e2;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
     transition: all 0.3s ease;
   }
 
-  .developing-btn:hover {
-    background: rgba(120, 200, 220, 0.22);
+  .lib-item:hover {
+    background: rgba(120, 200, 220, 0.10);
+    border-color: rgba(126, 200, 227, 0.45);
     transform: translateY(-2px);
-    box-shadow: 0 4px 16px rgba(120, 200, 220, 0.2);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+  }
+
+  .lib-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 21px;
+    background: rgba(120, 200, 220, 0.12);
+  }
+
+  .lib-info {
+    min-width: 0;
+  }
+
+  .lib-name {
+    font-size: 14px;
+    font-weight: 500;
+    color: #e0eaf0;
+    margin-bottom: 3px;
+  }
+
+  .lib-desc {
+    font-size: 12px;
+    color: #8ea2b0;
+    line-height: 1.55;
+  }
+
+  /* 博文列表 */
+  .post-list {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .post-item {
+    background: rgba(255,255,255,0.035);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+
+  .post-item.open {
+    border-color: rgba(126, 200, 227, 0.4);
+  }
+
+  .post-head {
+    width: 100%;
+    padding: 18px 20px;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    font-family: inherit;
+  }
+
+  .post-head:hover .post-title {
+    color: #8fd4e2;
+  }
+
+  .post-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .post-title {
+    font-size: 15px;
+    font-weight: 600;
+    color: #e4eef4;
+    transition: color 0.25s;
+  }
+
+  .post-arrow {
+    color: #7fc8d8;
+    transition: transform 0.3s;
+    flex-shrink: 0;
+  }
+
+  .post-item.open .post-arrow {
+    transform: rotate(180deg);
+  }
+
+  .post-meta {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 11px;
+    color: #8fa3b1;
+  }
+
+  .post-tag {
+    padding: 2px 9px;
+    border-radius: 5px;
+    background: rgba(120, 200, 220, 0.12);
+    color: #8fd4e2;
+  }
+
+  .post-summary {
+    font-size: 13px;
+    color: #9db2c0;
+    line-height: 1.7;
+  }
+
+  .post-content {
+    display: none;
+    padding: 16px 20px 20px;
+    font-size: 13px;
+    color: #bcccd8;
+    line-height: 1.9;
+    border-top: 1px dashed rgba(255,255,255,0.08);
+  }
+
+  .post-item.open .post-content {
+    display: block;
+  }
+
+  .post-content p {
+    margin-bottom: 12px;
+  }
+
+  .post-content h4 {
+    font-size: 14px;
+    color: #8fd4e2;
+    margin: 14px 0 8px;
+    font-weight: 600;
+  }
+
+  .post-content code {
+    background: rgba(120, 200, 220, 0.14);
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 12px;
+  }
+
+  .post-content ul {
+    margin: 0 0 12px 20px;
+  }
+
+  .post-content li {
+    margin-bottom: 6px;
+  }
+
+  /* IT 书籍 */
+  .book-item {
+    align-items: center;
+  }
+
+  .book-cover {
+    width: 46px;
+    height: 62px;
+    border-radius: 6px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    box-shadow: 0 3px 10px rgba(0,0,0,0.35);
+  }
+
+  .book-author {
+    font-size: 12px;
+    color: #7fc8d8;
+    margin-bottom: 3px;
+  }
+
+  @media (max-width: 560px) {
+    .list-grid {
+      grid-template-columns: 1fr;
+    }
+    .list-body {
+      padding: 20px 18px 24px;
+    }
   }
 
   /* Visit Counter */
@@ -1062,48 +1191,363 @@
         </div>
       </div>
 
-      <!-- Developing Modal -->
-      <div class="modal-overlay" id="developingModal">
-        <div class="modal-content developing-modal">
+      <!-- Tools Modal -->
+      <div class="modal-overlay" id="toolsModal">
+        <div class="modal-content list-modal">
           <div class="modal-header">
             <div class="modal-title">
-              <span>🚧</span>
-              <span id="devModalName">正在开发</span>
+              <span>🧰</span>
+              工具库
             </div>
-            <button class="modal-close" id="devCloseBtn">✕</button>
+            <button class="modal-close" id="toolsCloseBtn">✕</button>
           </div>
-          <div class="developing-body">
-            <div class="developing-icon">
-              <svg width="56" height="56" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <!-- 房子 -->
-                <path d="M6 30 L21 15 L36 30 L36 54 L6 54 Z" fill="rgba(240,216,154,0.1)" stroke="#f0d89a" stroke-width="2" stroke-linejoin="round"/>
-                <rect x="14" y="42" width="9" height="12" fill="none" stroke="#f0d89a" stroke-width="1.8"/>
-                <rect x="25" y="37" width="7" height="6" fill="rgba(126,200,227,0.2)" stroke="#7ec8e3" stroke-width="1.5"/>
-                <!-- 小人头 -->
-                <circle cx="51" cy="26" r="4" fill="#7ec8e3"/>
-                <!-- 安全帽 -->
-                <path d="M46.5 25 Q46.5 19.5 51 19.5 Q55.5 19.5 55.5 25 Z" fill="#f0d89a"/>
-                <rect x="45.5" y="24.5" width="11" height="1.8" rx="0.9" fill="#f0d89a"/>
-                <!-- 身体 -->
-                <line x1="51" y1="30" x2="51" y2="44" stroke="#7ec8e3" stroke-width="2.6" stroke-linecap="round"/>
-                <!-- 手臂 -->
-                <line x1="51" y1="34" x2="45" y2="40" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
-                <line x1="51" y1="34" x2="58" y2="29" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
-                <!-- 锤子 -->
-                <g transform="rotate(40 58 29)">
-                  <rect x="54" y="27" width="8" height="4.5" rx="1" fill="#f0d89a"/>
-                </g>
-                <!-- 腿 -->
-                <line x1="51" y1="44" x2="47" y2="55" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
-                <line x1="51" y1="44" x2="55" y2="55" stroke="#7ec8e3" stroke-width="2.2" stroke-linecap="round"/>
-              </svg>
+          <div class="list-body">
+            <div class="list-grid">
+              <a href="https://www.json.cn/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🧾</div>
+                <div class="lib-info">
+                  <div class="lib-name">JSON 格式化</div>
+                  <div class="lib-desc">JSON 在线解析、校验、格式化与转义</div>
+                </div>
+              </a>
+              <a href="https://regex101.com/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🔍</div>
+                <div class="lib-info">
+                  <div class="lib-name">正则表达式测试</div>
+                  <div class="lib-desc">正则在线调试，带匹配解释与替换预览</div>
+                </div>
+              </a>
+              <a href="https://cli.im/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">📱</div>
+                <div class="lib-info">
+                  <div class="lib-name">二维码生成</div>
+                  <div class="lib-desc">二维码、活码、批量码生成与美化</div>
+                </div>
+              </a>
+              <a href="https://tool.lu/color/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🎨</div>
+                <div class="lib-info">
+                  <div class="lib-name">颜色选择器</div>
+                  <div class="lib-desc">HEX / RGB / HSL 颜色值互转与调色</div>
+                </div>
+              </a>
+              <a href="https://tool.lu/timestamp/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">⏱️</div>
+                <div class="lib-info">
+                  <div class="lib-name">时间戳转换</div>
+                  <div class="lib-desc">Unix 时间戳与北京时间双向换算</div>
+                </div>
+              </a>
+              <a href="https://tool.lu/encdec/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🔐</div>
+                <div class="lib-info">
+                  <div class="lib-name">Base64 编解码</div>
+                  <div class="lib-desc">Base64、URL 等编码在线转换</div>
+                </div>
+              </a>
+              <a href="https://tinypng.com/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🗜️</div>
+                <div class="lib-info">
+                  <div class="lib-name">图片压缩</div>
+                  <div class="lib-desc">智能无损压缩 PNG / JPG / WebP</div>
+                </div>
+              </a>
+              <a href="https://www.ilovepdf.com/zh-cn" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">📄</div>
+                <div class="lib-info">
+                  <div class="lib-name">PDF 工具箱</div>
+                  <div class="lib-desc">PDF 合并、拆分、转换、压缩全套</div>
+                </div>
+              </a>
+              <a href="https://www.remove.bg/zh" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">✂️</div>
+                <div class="lib-info">
+                  <div class="lib-name">智能抠图</div>
+                  <div class="lib-desc">一键自动去除图片背景，无需手抠</div>
+                </div>
+              </a>
+              <a href="https://www.iconfont.cn/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🧩</div>
+                <div class="lib-info">
+                  <div class="lib-name">矢量图标库</div>
+                  <div class="lib-desc">阿里 iconfont 图标、插画素材下载</div>
+                </div>
+              </a>
+              <a href="https://caniuse.com/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">🌐</div>
+                <div class="lib-info">
+                  <div class="lib-name">兼容性查询</div>
+                  <div class="lib-desc">前端特性在各浏览器的支持情况</div>
+                </div>
+              </a>
+              <a href="https://tool.lu/diff/" target="_blank" rel="noopener noreferrer" class="lib-item">
+                <div class="lib-icon">📝</div>
+                <div class="lib-info">
+                  <div class="lib-name">代码对比</div>
+                  <div class="lib-desc">两段文本在线 Diff 差异对比</div>
+                </div>
+              </a>
             </div>
-            <div class="developing-title" id="devTitle">博客</div>
-            <div class="developing-desc">该功能正在紧锣密鼓地开发中，敬请期待～</div>
-            <div class="developing-loader">
-              <span></span><span></span><span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Blog Modal -->
+      <div class="modal-overlay" id="blogModal">
+        <div class="modal-content list-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>✍️</span>
+              博文
             </div>
-            <button class="developing-btn" id="devConfirmBtn">知道了</button>
+            <button class="modal-close" id="blogCloseBtn">✕</button>
+          </div>
+          <div class="list-body">
+            <div class="post-list">
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">用 Vue3 组合式 API 重构老项目的踩坑记录</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-09-12</span>
+                    <span class="post-tag">Vue3</span>
+                    <span class="post-tag">前端</span>
+                  </div>
+                  <div class="post-summary">把一个两年历史的 Options API 项目迁到组合式 API，变化的不只是写法，更是组织代码的心智模型。</div>
+                </div>
+                <div class="post-content">
+                  <p>接手这个项目时，同一个组件里 data、methods、watch 分散在上百行中，想改一个功能要在选项之间来回跳。重构的目标不是追新，而是让相关的逻辑重新聚拢到一起。</p>
+                  <h4>为什么选 &lt;script setup&gt;</h4>
+                  <p>更少的样板代码、更好的 TypeScript 推导，顶层声明直接可用于模板。一个明显的收益是：逻辑可以按功能垂直组织，而不是按选项类型水平切割。</p>
+                  <h4>踩过的坑</h4>
+                  <ul>
+                    <li><code>reactive</code> 对象解构后会丢失响应性，需要用 <code>toRefs</code> 包一层；</li>
+                    <li><code>ref</code> 在模板里自动解包，但在 JS 中必须老老实实写 <code>.value</code>；</li>
+                    <li><code>watch</code> 监听多个源用数组形式，别忘了 <code>flush: 'post'</code> 才能拿到更新后的 DOM。</li>
+                  </ul>
+                  <p>抽离可复用逻辑时，把函数命名为 <code>useXxx</code> 的组合式函数，状态的归属和生命周期立刻清晰起来。重构完成后，几个核心组件的行数少了近三分之一。</p>
+                </div>
+              </div>
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">CSS 玻璃拟态（Glassmorphism）效果完全指南</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-08-28</span>
+                    <span class="post-tag">CSS</span>
+                    <span class="post-tag">设计</span>
+                  </div>
+                  <div class="post-summary">半透明背景、背景模糊、细边框和柔和阴影，四个要素拼出高级感十足的磨砂玻璃卡片。</div>
+                </div>
+                <div class="post-content">
+                  <p>玻璃拟态的本质，是让元素模拟一块磨砂玻璃：背后的内容透过来但被模糊，边缘有一圈若有若无的高光。</p>
+                  <h4>四要素</h4>
+                  <ul>
+                    <li>半透明背景：<code>background: rgba(255,255,255,0.08)</code>；</li>
+                    <li>背景模糊：<code>backdrop-filter: blur(12px)</code>；</li>
+                    <li>细边框描边，模拟玻璃边缘的反光；</li>
+                    <li>柔和的投影，让卡片从背景上浮起来。</li>
+                  </ul>
+                  <h4>两个注意点</h4>
+                  <p>Safari 需要 <code>-webkit-backdrop-filter</code> 前缀；模糊层会占用 GPU，同屏卡片过多时低端机会掉帧，建议配合内容懒加载。另外玻璃效果只在背景足够丰富时好看，纯色背景上会显得发灰。</p>
+                </div>
+              </div>
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">前端性能优化：从 8 秒到 1.2 秒的实践清单</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-08-15</span>
+                    <span class="post-tag">性能优化</span>
+                  </div>
+                  <div class="post-summary">先测量再优化。图片、打包体积、渲染路径三管齐下，首屏加载时间的降幅可以非常可观。</div>
+                </div>
+                <div class="post-content">
+                  <p>优化前先用 Lighthouse 跑一遍基线，避免凭感觉改代码。当时最大的瓶颈是首屏图片和一个未拆分的巨型 JS bundle。</p>
+                  <h4>图片</h4>
+                  <ul>
+                    <li>统一转 WebP/AVIF，体积平均减少 40%；</li>
+                    <li>懒加载非首屏图片，配合 <code>srcset</code> 做响应式尺寸；</li>
+                    <li>图标全部内联为 SVG，告别小图标请求。</li>
+                  </ul>
+                  <h4>资源与渲染</h4>
+                  <p>路由级代码分割把首包砍到原来的三分之一；字体用 <code>font-display: swap</code>；对长列表上虚拟滚动。最终 LCP 从 8s 降到 1.2s，性能分从 52 涨到 94。</p>
+                </div>
+              </div>
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">JavaScript 异步编程演进史：从回调到 async/await</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-07-30</span>
+                    <span class="post-tag">JavaScript</span>
+                  </div>
+                  <div class="post-summary">回调地狱、Promise 链式调用、Generator 协程，再到今天写起来像同步代码的 async/await。</div>
+                </div>
+                <div class="post-content">
+                  <p>最早处理异步只能靠回调，多层嵌套形成的"回调地狱"让错误处理和代码阅读都变成噩梦。Promise 用扁平化的 <code>.then().catch()</code> 链解决了嵌套问题，但本质仍是函数拼接。</p>
+                  <p>Generator 让函数可以暂停与恢复，配合运行器一度让异步代码能以同步的形态书写；最终 ES2017 的 async/await 把这套机制标准化，成为今天的默认写法。</p>
+                  <p>理解这条演进线的关键，是理解事件循环：宏任务与微任务的调度顺序，决定了 <code>await</code> 之后的代码何时执行。工具会变，底层模型不会。</p>
+                </div>
+              </div>
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">从零搭建一个个人导航页</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-07-18</span>
+                    <span class="post-tag">随笔</span>
+                  </div>
+                  <div class="post-summary">一个 HTML 文件、零构建、零依赖，加上时钟、天气和常用站点卡片，个人导航也可以很精致。</div>
+                </div>
+                  <div class="post-content">
+                  <p>起因很简单：浏览器默认页太无聊，而现成的导航站塞满了广告。自己写一个，想要什么卡片就放什么。</p>
+                  <p>技术选型刻意保持克制：单文件 HTML + 原生 JS，不引入框架，双击即可打开，扔到任何静态托管上就能跑。玻璃拟态卡片负责颜值，实时时钟和访客统计让页面有"活着"的感觉。</p>
+                  <p>唯一的麻烦是第三方免费 API 不稳定，解决办法是为每个请求设置超时并准备备用接口，加载失败时给出友好提示，而不是让页面一直转圈。</p>
+                </div>
+              </div>
+
+              <div class="post-item">
+                <div class="post-head">
+                  <div class="post-title-row">
+                    <div class="post-title">浏览器开发者工具的 10 个冷门技巧</div>
+                    <span class="post-arrow">▾</span>
+                  </div>
+                  <div class="post-meta">
+                    <span>📅 2026-07-02</span>
+                    <span class="post-tag">调试</span>
+                  </div>
+                  <div class="post-summary">console.table、条件断点、日志断点、网络节流……用好 DevTools 能省掉大量 console.log。</div>
+                </div>
+                <div class="post-content">
+                  <ul>
+                    <li><code>console.table(arr)</code> 把对象数组打印成表格；</li>
+                    <li>控制台输入 <code>$_</code> 拿到上一个表达式结果，<code>$0</code> 是当前选中的元素；</li>
+                    <li>右键行号选 Add conditional breakpoint，条件成立才中断；</li>
+                    <li>Add logpoint 可以不修改源码插入日志；</li>
+                    <li>Network 面板可模拟弱网与离线；</li>
+                    <li>Elements 中颜色小方块点击可在 HEX/RGB/HSL 间切换；</li>
+                    <li>Coverage 面板找出未使用的 JS/CSS；</li>
+                    <li>Performance 录制定位长任务；</li>
+                    <li>Application 面板一键清理站点数据；</li>
+                    <li>Ctrl+Shift+P 打开命令菜单，所有功能都能搜索执行。</li>
+                  </ul>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Books Modal -->
+      <div class="modal-overlay" id="booksModal">
+        <div class="modal-content list-modal">
+          <div class="modal-header">
+            <div class="modal-title">
+              <span>📚</span>
+              IT 书库
+            </div>
+            <button class="modal-close" id="booksCloseBtn">✕</button>
+          </div>
+          <div class="list-body">
+            <div class="list-grid">
+              <a href="https://search.douban.com/book/subject_search?search_text=代码大全" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#3a6ea5,#234463);">🏗️</div>
+                <div class="lib-info">
+                  <div class="lib-name">代码大全（第2版）</div>
+                  <div class="book-author">Steve McConnell</div>
+                  <div class="lib-desc">软件构建之道，程序员的工程百科全书</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=深入理解计算机系统" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#5d4e8c,#3d3360);">💻</div>
+                <div class="lib-info">
+                  <div class="lib-name">深入理解计算机系统</div>
+                  <div class="book-author">Randal E. Bryant</div>
+                  <div class="lib-desc">从程序员视角串起组成、链接、虚拟内存</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=算法导论" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#2f7d6d,#1d5246);">📐</div>
+                <div class="lib-info">
+                  <div class="lib-name">算法导论</div>
+                  <div class="book-author">Thomas H. Cormen</div>
+                  <div class="lib-desc">数据结构与算法的严谨经典教材</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=设计模式" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#b07a3a,#7a5022);">🧩</div>
+                <div class="lib-info">
+                  <div class="lib-name">设计模式</div>
+                  <div class="book-author">GoF 四人组</div>
+                  <div class="lib-desc">23 种可复用面向对象设计模式的源头</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=重构 改善既有代码的设计" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#4a8f6f,#2f634c);">🌱</div>
+                <div class="lib-info">
+                  <div class="lib-name">重构（第2版）</div>
+                  <div class="book-author">Martin Fowler</div>
+                  <div class="lib-desc">用小步安全的手法持续改善既有代码</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=JavaScript高级程序设计" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#c4452f,#8c2f1e);">📕</div>
+                <div class="lib-info">
+                  <div class="lib-name">JavaScript 高级程序设计（第4版）</div>
+                  <div class="book-author">Matt Frisbie</div>
+                  <div class="lib-desc">JS 红宝书，全面扎实的案头参考</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=你不知道的JavaScript" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#6e7f8d,#48555f);">📘</div>
+                <div class="lib-info">
+                  <div class="lib-name">你不知道的 JavaScript</div>
+                  <div class="book-author">Kyle Simpson</div>
+                  <div class="lib-desc">深入作用域、闭包与 this 的机制内核</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=CSS揭秘" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#d06a8c,#92445e);">🎨</div>
+                <div class="lib-info">
+                  <div class="lib-name">CSS 揭秘</div>
+                  <div class="book-author">Lea Verou</div>
+                  <div class="lib-desc">47 个 CSS 进阶技巧，刷新样式认知</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=计算机网络 自顶向下方法" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#3d7ea6,#275673);">🌐</div>
+                <div class="lib-info">
+                  <div class="lib-name">计算机网络：自顶向下方法</div>
+                  <div class="book-author">James F. Kurose</div>
+                  <div class="lib-desc">从应用层出发，讲透网络协议栈</div>
+                </div>
+              </a>
+              <a href="https://search.douban.com/book/subject_search?search_text=操作系统导论" target="_blank" rel="noopener noreferrer" class="lib-item book-item">
+                <div class="book-cover" style="background: linear-gradient(135deg,#8c5d4e,#603d32);">🖥️</div>
+                <div class="lib-info">
+                  <div class="lib-name">操作系统导论</div>
+                  <div class="book-author">Remzi H. Arpaci-Dusseau</div>
+                  <div class="lib-desc">虚拟化、并发与持久化的现代讲义</div>
+                </div>
+              </a>
+            </div>
           </div>
         </div>
       </div>
@@ -1115,7 +1559,7 @@
           网站列表
         </div>
         <div class="website-grid">
-          <a href="#" class="website-card developing-card" data-name="博客">
+          <a href="#" class="website-card" id="blogCard">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
             </div>
@@ -1139,13 +1583,13 @@
             </div>
             <div class="website-name">求签</div>
           </a>
-          <a href="#" class="website-card developing-card" data-name="工具库">
+          <a href="#" class="website-card" id="toolsCard">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
             </div>
             <div class="website-name">工具库</div>
           </a>
-          <a href="#" class="website-card developing-card" data-name="IT书库">
+          <a href="#" class="website-card" id="booksCard">
             <div class="website-icon">
               <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
             </div>
@@ -1187,7 +1631,7 @@
   
 </div>
 
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<script defer src="https://events.vercount.one/js"></script>
 <script>
   function updateClock() {
     const now = new Date();
@@ -1640,57 +2084,70 @@
 
   qqBtn.addEventListener('click', fetchQiuqian);
 
-  // 正在开发弹窗逻辑
-  const developingModal = document.getElementById('developingModal');
-  const devCloseBtn = document.getElementById('devCloseBtn');
-  const devConfirmBtn = document.getElementById('devConfirmBtn');
-  const devTitle = document.getElementById('devTitle');
-  const devModalName = document.getElementById('devModalName');
+  // 内容弹窗（工具库 / 博文 / IT书库）
+  const contentModals = {
+    tools: document.getElementById('toolsModal'),
+    blog: document.getElementById('blogModal'),
+    books: document.getElementById('booksModal')
+  };
+  const triggerMap = {
+    tools: document.getElementById('toolsCard'),
+    blog: document.getElementById('blogCard'),
+    books: document.getElementById('booksCard')
+  };
+  const closeMap = {
+    tools: document.getElementById('toolsCloseBtn'),
+    blog: document.getElementById('blogCloseBtn'),
+    books: document.getElementById('booksCloseBtn')
+  };
 
-  function openDevelopingModal(name) {
-    devTitle.textContent = name;
-    devModalName.textContent = name + ' · 开发中';
-    developingModal.classList.add('active');
+  function openContentModal(type) {
+    const modal = contentModals[type];
+    if (!modal) return;
+    modal.classList.add('active');
     document.body.style.overflow = 'hidden';
   }
 
-  function closeDevelopingModal() {
-    developingModal.classList.remove('active');
+  function closeContentModal(modal) {
+    modal.classList.remove('active');
     document.body.style.overflow = '';
   }
 
-  document.querySelectorAll('.developing-card').forEach(card => {
-    card.addEventListener('click', (e) => {
-      e.preventDefault();
-      const name = card.getAttribute('data-name') || '该功能';
-      openDevelopingModal(name);
+  Object.keys(triggerMap).forEach(type => {
+    const card = triggerMap[type];
+    if (card) {
+      card.addEventListener('click', (e) => {
+        e.preventDefault();
+        openContentModal(type);
+      });
+    }
+    const closeBtn = closeMap[type];
+    if (closeBtn) {
+      closeBtn.addEventListener('click', () => closeContentModal(contentModals[type]));
+    }
+    const modal = contentModals[type];
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeContentModal(modal);
+      });
+    }
+  });
+
+  // Esc 关闭任意打开的内容弹窗
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    Object.values(contentModals).forEach(modal => {
+      if (modal && modal.classList.contains('active')) closeContentModal(modal);
     });
   });
 
-  devCloseBtn.addEventListener('click', closeDevelopingModal);
-  devConfirmBtn.addEventListener('click', closeDevelopingModal);
-
-  developingModal.addEventListener('click', (e) => {
-    if (e.target === developingModal) closeDevelopingModal();
+  // 博文展开 / 收起
+  document.querySelectorAll('.post-head').forEach(head => {
+    head.addEventListener('click', () => {
+      const item = head.closest('.post-item');
+      if (item) item.classList.toggle('open');
+    });
   });
-
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && developingModal.classList.contains('active')) {
-      closeDevelopingModal();
-    }
-  });
-
-  // 访问量统计容错处理：如果不蒜子加载超时，显示默认值
-  setTimeout(() => {
-    const pvEl = document.getElementById('busuanzi_value_site_pv');
-    const uvEl = document.getElementById('busuanzi_value_site_uv');
-    if (pvEl && pvEl.textContent === '加载中...') {
-      pvEl.textContent = '--';
-    }
-    if (uvEl && uvEl.textContent === '加载中...') {
-      uvEl.textContent = '--';
-    }
-  }, 5000);
 </script>
 </body>
 </html>
